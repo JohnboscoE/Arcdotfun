@@ -1,0 +1,31 @@
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Environment files
+.env
+**/.env
+.env.production
+**/.env.production
+
+# Foundry
+contracts/lib/
+contracts/out/
+contracts/cache/
+contracts/.env
+
+# Build outputs
+dist/
+**/dist/
+
+# Database
+db.json
+**/db.json
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db

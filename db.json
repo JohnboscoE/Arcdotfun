@@ -1,0 +1,17 @@
+{
+  "creators": {
+    "a38801b0-e4a0-5a51-b47c-f0672e932498": {
+      "id": "a38801b0-e4a0-5a51-b47c-f0672e932498",
+      "name": "Alex Johnson",
+      "tokenName": "Alex",
+      "symbol": "N8N",
+      "description": "test",
+      "walletId": "a38801b0-e4a0-5a51-b47c-f0672e932498",
+      "walletAddress": "0x7a270df4c39759b410ecb1ffabdfe2dcb3e56225",
+      "tokenAddress": "0xca796af0864e2e2eb8290f2febeb4e44ce16cda4",
+      "txHash": "0xba27a95dc12f0be5fdc503d405118ef578a42e70c21fc510e4d83197f49ebb1d",
+      "status": "live",
+      "createdAt": "2026-05-23T16:22:27.139Z"
+    }
+  }
+}
