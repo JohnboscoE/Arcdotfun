@@ -1,49 +1,50 @@
-import express    from "express"
-import cors       from "cors"
+import express from "express"
+import cors    from "cors"
 import "dotenv/config"
-import { creatorRouter } from "./routes/creator.js"
-import { fanRouter }     from "./routes/fan.js"
-import { watchCreatorToken } from "./services/events.js"
-import { db } from "./db.js" 
-import { swapRouter } from "./routes/swap.js"
 
 const app  = express()
 const PORT = process.env.PORT ?? 3001
 
-// CORS — must be before all routes
-const corsOptions = {
+// Simple CORS for Express 5
+app.use(cors({
   origin:  "*",
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
-}
-
-app.use(cors(corsOptions))
-
-// Handle preflight OPTIONS requests for all routes
-app.options("*", cors(corsOptions))
+}))
 
 app.use(express.json())
-
-// Routes
-app.use("/api/creator", creatorRouter)
-app.use("/api/fan",     fanRouter)
-app.use("/api/swap",    swapRouter)
 
 // Health check
 app.get("/health", (_req, res) => {
   res.json({ status: "ok", chain: "ARC-TESTNET" })
 })
 
-// Re-watch existing tokens on startup
-const existingCreators = db.getAllCreators()
-if (existingCreators.length > 0) {
-  console.log(`🔄 Restoring ${existingCreators.length} token watcher(s)...`)
-  existingCreators.forEach(c => {
-    if (c.tokenAddress) {
-      watchCreatorToken(c.tokenAddress as `0x${string}`)
-    }
-  })
+async function startServer() {
+  try {
+    const { creatorRouter } = await import("./routes/creator.js")
+    const { fanRouter }     = await import("./routes/fan.js")
+    const { swapRouter }    = await import("./routes/swap.js")
+    const { watchCreatorToken } = await import("./services/events.js")
+    const { db }            = await import("./db.js")
+
+    app.use("/api/creator", creatorRouter)
+    app.use("/api/fan",     fanRouter)
+    app.use("/api/swap",    swapRouter)
+
+    const creators = db.getAllCreators()
+    creators.forEach(c => {
+      if (c.tokenAddress) {
+        watchCreatorToken(c.tokenAddress as `0x${string}`)
+      }
+    })
+
+    console.log(`✅ All routes loaded`)
+  } catch (err) {
+    console.error("❌ Failed to load routes:", err)
+  }
 }
+
+startServer()
 
 app.listen(PORT, () => {
   console.log(`🚀 Backend running on http://localhost:${PORT}`)
