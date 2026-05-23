@@ -22,6 +22,15 @@ app.get("/health", (_req, res) => {
   res.json({ status: "ok", chain: "ARC-TESTNET" })
 })
 
+app.use(cors({
+  origin: [
+    "http://localhost:5173",
+    /\.vercel\.app$/,      // allows any vercel subdomain
+    /\.railway\.app$/,     // allows railway domains
+  ],
+  credentials: true,
+}))
+
 
 
 // On startup — re-watch all previously deployed tokens
