@@ -23,14 +23,9 @@ app.get("/health", (_req, res) => {
 })
 
 app.use(cors({
-  origin: [
-    "http://localhost:5173",
-    /\.vercel\.app$/,      // allows any vercel subdomain
-    /\.railway\.app$/,     // allows railway domains
-  ],
-  credentials: true,
+  origin: "*",  // allow all origins for now
+  credentials: false,
 }))
-
 
 
 // On startup — re-watch all previously deployed tokens

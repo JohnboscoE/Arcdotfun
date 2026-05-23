@@ -10,13 +10,19 @@ export function Home() {
 
   useEffect(() => {
     getAllCreators()
-      .then(setCreators)
-      .catch(console.error)
+      .then((data) => {
+        // Ensure we always set an array
+        setCreators(Array.isArray(data) ? data : []);
+      })
+      .catch((err) => {
+        console.error("Failed to load creators:", err);
+        setCreators([]);
+      })
       .finally(() => setLoading(false));
   }, []);
 
   // Filter by token address OR symbol
-  const filtered = creators.filter((c) => {
+  const filtered = (Array.isArray(creators) ? creators : []).filter((c) => {
     const q = search.toLowerCase();
     if (!q) return true;
     return (
@@ -25,7 +31,6 @@ export function Home() {
       c.name?.toLowerCase().includes(q)
     );
   });
-
   // If search looks like a contract address (0x...) navigate directly
   function handleSearchKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
     if (e.key === "Enter" && search.startsWith("0x") && search.length === 42) {
