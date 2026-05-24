@@ -1,4 +1,4 @@
-# 🪙 ArcdotFun
+#  ArcdotFun
 
 > **The Social Token Launchpad built on Arc** — Create your personal ERC-20 token, let fans buy in with USDC, unlock exclusive access tiers, and trade stablecoins instantly with sub-second settlement.
 
